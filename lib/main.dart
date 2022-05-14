@@ -174,9 +174,10 @@ class _DBTestPageState extends State<DBTestPage> {
         future: siswa,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return dataTable(snapshot.data);
+            return dataTable(snapshot.data as List<Siswa>);
           }
-          if (null == snapshot.data || snapshot.data!.length == 0) {
+          if (null == snapshot.data ||
+              (snapshot.data as List<Siswa>).length == 0) {
             return const Text("");
           }
           return const CircularProgressIndicator();
