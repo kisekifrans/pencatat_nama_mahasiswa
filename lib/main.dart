@@ -27,7 +27,7 @@ class _DBTestPageState extends State<DBTestPage> {
   late Future<List<Siswa>> siswa;
   TextEditingController controller = TextEditingController();
   late String nama;
-  late int nim;
+  late int? nim;
   late int curUserId;
   final formKey = GlobalKey<FormState>();
   var dbHelper;
@@ -55,13 +55,13 @@ class _DBTestPageState extends State<DBTestPage> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       if (isUpdating) {
-        Siswa e = Siswa(curUserId, nama, nim);
+        Siswa e = Siswa(curUserId, nama, nim!);
         dbHelper.update(e);
         setState(() {
           isUpdating = false;
         });
       } else {
-        Siswa e = Siswa(null, nama, nim);
+        Siswa e = Siswa(0, nama, nim!);
         dbHelper.save(e);
       }
       clearName();
@@ -145,13 +145,13 @@ class _DBTestPageState extends State<DBTestPage> {
                   },
                 ),
                 DataCell(
-                  Text(siswa.nim),
+                  Text(siswa.nim.toString()),
                   onTap: () {
                     setState(() {
                       isUpdating = true;
                       curUserId = siswa.id;
                     });
-                    controller.text = siswa.nim;
+                    controller.text = siswa.nim.toString();
                   },
                 ),
                 DataCell(IconButton(
