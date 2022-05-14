@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'dart:async';
 import 'src/db_helper.dart';
 import 'src/siswa.dart';
@@ -25,11 +24,15 @@ class DBTestPage extends StatefulWidget {
 
 class _DBTestPageState extends State<DBTestPage> {
   late Future<List<Siswa>> siswa;
+
   TextEditingController controller = TextEditingController();
+
   late String nama;
   late int? nim;
   late int curUserId;
+
   final formKey = GlobalKey<FormState>();
+  // ignore: prefer_typing_uninitialized_variables
   var dbHelper;
   late bool isUpdating;
 
@@ -48,7 +51,7 @@ class _DBTestPageState extends State<DBTestPage> {
   }
 
   clearName() {
-    controller.text = "";
+    controller.text = '';
   }
 
   validationInput() {
@@ -88,7 +91,7 @@ class _DBTestPageState extends State<DBTestPage> {
               ),
               TextFormField(
                 controller: controller,
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.number,
                 decoration: const InputDecoration(labelText: 'Nim kamu baby'),
                 validator: (val) => val!.isEmpty ? 'Masukkan Nim mazseh' : null,
                 onSaved: (val) => nim = val! as int,
@@ -120,14 +123,14 @@ class _DBTestPageState extends State<DBTestPage> {
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
       child: DataTable(
-        columns: [
-          const DataColumn(
+        columns: const [
+          DataColumn(
             label: Text('NAMA'),
           ),
-          const DataColumn(
+          DataColumn(
             label: Text('NIM'),
           ),
-          const DataColumn(
+          DataColumn(
             label: Text('DELETED'),
           )
         ],
@@ -176,8 +179,7 @@ class _DBTestPageState extends State<DBTestPage> {
           if (snapshot.hasData) {
             return dataTable(snapshot.data as List<Siswa>);
           }
-          if (null == snapshot.data ||
-              (snapshot.data as List<Siswa>).length == 0) {
+          if (null == snapshot.data || (snapshot.data as List<Siswa>).isEmpty) {
             return const Text("");
           }
           return const CircularProgressIndicator();

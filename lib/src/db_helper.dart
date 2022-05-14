@@ -38,6 +38,19 @@ class DBHelper {
     return siswa;
   }
 
+  Future<List<Siswa>> getSiswa() async {
+    var dbClient = await db;
+    List<Map> maps = await dbClient.query(TABLE, columns: [ID, NAME, NIM]);
+
+    List<Siswa> siswa = [];
+    if (maps.isNotEmpty) {
+      for (int i = 0; i < maps.length; i++) {
+        siswa.add(Siswa.fromMap(maps[i] as dynamic));
+      }
+    }
+    return siswa;
+  }
+
   Future<int> delete(int id) async {
     var dbClient = await db;
     return await dbClient.delete(TABLE, where: '$ID : ?', whereArgs: [id]);
