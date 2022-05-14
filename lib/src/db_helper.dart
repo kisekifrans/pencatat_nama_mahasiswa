@@ -9,6 +9,7 @@ class DBHelper {
   static late Database _db;
   static const String ID = 'id';
   static const String NAME = 'nama';
+  static const String NIM = 'nim';
   static const String TABLE = 'siswa';
   static const String DB_NAME = 'siswa.db';
 
@@ -28,7 +29,7 @@ class DBHelper {
 
   _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE $TABLE ($ID INTEGER PRIMARY KEY AUTOINCREMENT, $NAME TEXT");
+        "CREATE TABLE $TABLE ($ID INTEGER PRIMARY KEY AUTOINCREMENT, $NAME TEXT, $NIM INTEGER");
   }
 
   Future<Siswa> save(Siswa siswa) async {

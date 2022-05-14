@@ -27,6 +27,7 @@ class _DBTestPageState extends State<DBTestPage> {
   late Future<List<Siswa>> siswa;
   TextEditingController controller = TextEditingController();
   late String nama;
+  late int nim;
   late int curUserId;
   final formKey = GlobalKey<FormState>();
   var dbHelper;
@@ -54,13 +55,13 @@ class _DBTestPageState extends State<DBTestPage> {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       if (isUpdating) {
-        Siswa e = Siswa(curUserId, nama);
+        Siswa e = Siswa(curUserId, nama, nim);
         dbHelper.update(e);
         setState(() {
           isUpdating = false;
         });
       } else {
-        Siswa e = Siswa(null!, nama);
+        Siswa e = Siswa(null, nama, nim);
         dbHelper.save(e);
       }
       clearName();
@@ -84,6 +85,13 @@ class _DBTestPageState extends State<DBTestPage> {
                 decoration: const InputDecoration(labelText: 'Nama'),
                 validator: (val) => val!.isEmpty ? 'Masukkan Nama' : null,
                 onSaved: (val) => nama = val!,
+              ),
+              TextFormField(
+                controller: controller,
+                keyboardType: TextInputType.text,
+                decoration: const InputDecoration(labelText: 'Nim kamu baby'),
+                validator: (val) => val!.isEmpty ? 'Masukkan Nim mazseh' : null,
+                onSaved: (val) => nim = val! as int,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -117,6 +125,9 @@ class _DBTestPageState extends State<DBTestPage> {
             label: Text('NAMA'),
           ),
           const DataColumn(
+            label: Text('NIM'),
+          ),
+          const DataColumn(
             label: Text('DELETED'),
           )
         ],
@@ -131,6 +142,16 @@ class _DBTestPageState extends State<DBTestPage> {
                       curUserId = siswa.id;
                     });
                     controller.text = siswa.nama;
+                  },
+                ),
+                DataCell(
+                  Text(siswa.nim),
+                  onTap: () {
+                    setState(() {
+                      isUpdating = true;
+                      curUserId = siswa.id;
+                    });
+                    controller.text = siswa.nim;
                   },
                 ),
                 DataCell(IconButton(
