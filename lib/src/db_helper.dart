@@ -23,14 +23,15 @@ class DBHelper {
 
   initDB() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, DB_NAME);
+    String path = join(documentsDirectory.path, 'siswa.db');
     var db = await openDatabase(path, version: 1, onCreate: _onCreate);
     return db;
   }
 
   _onCreate(Database db, int version) async {
     await db.execute(
-        "CREATE TABLE $TABLE ($ID INTEGER PRIMARY KEY AUTOINCREMENT, $NAME TEXT, $NIM TEXT");
+      "CREATE TABLE $TABLE ($ID INTEGER PRIMARY KEY, $NAME TEXT, $NIM TEXT)",
+    );
   }
 
   Future<Siswa> save(Siswa siswa) async {

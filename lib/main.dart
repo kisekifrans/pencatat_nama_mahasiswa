@@ -29,7 +29,7 @@ class _DBTestPageState extends State<DBTestPage> {
   TextEditingController controllernim = TextEditingController();
 
   late String nama;
-  late int nim;
+  late String nim;
   int? curUserId;
 
   final formKey = GlobalKey<FormState>();
@@ -93,10 +93,10 @@ class _DBTestPageState extends State<DBTestPage> {
               ),
               TextFormField(
                 controller: controllernim,
-                keyboardType: TextInputType.number,
+                keyboardType: TextInputType.text,
                 decoration: const InputDecoration(labelText: 'Nim kamu baby'),
                 validator: (val) => val!.isEmpty ? 'Masukkan Nim mazseh' : null,
-                onSaved: (val) => nim = val! as int,
+                onSaved: (val) => nim = val!,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -1,7 +1,7 @@
 class Siswa {
   int? id;
   late String nama;
-  late int nim;
+  late String nim;
 
   Siswa(this.id, this.nama, this.nim);
 
