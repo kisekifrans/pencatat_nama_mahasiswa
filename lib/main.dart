@@ -53,7 +53,7 @@ class _DBTestPageState extends State<DBTestPage> {
 
   clearName() {
     controllernama.text = '';
-    controllernim = '' as TextEditingController;
+    controllernim.text = '';
   }
 
   validationInput() {
