@@ -25,11 +25,12 @@ class DBTestPage extends StatefulWidget {
 class _DBTestPageState extends State<DBTestPage> {
   late Future<List<Siswa>> siswa;
 
-  TextEditingController controller = TextEditingController();
+  TextEditingController controllernama = TextEditingController();
+  TextEditingController controllernim = TextEditingController();
 
   late String nama;
-  late int? nim;
-  late int curUserId;
+  late int nim;
+  int? curUserId;
 
   final formKey = GlobalKey<FormState>();
   // ignore: prefer_typing_uninitialized_variables
@@ -51,20 +52,21 @@ class _DBTestPageState extends State<DBTestPage> {
   }
 
   clearName() {
-    controller.text = '';
+    controllernama.text = '';
+    controllernim = '' as TextEditingController;
   }
 
   validationInput() {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
       if (isUpdating) {
-        Siswa e = Siswa(curUserId, nama, nim!);
+        Siswa e = Siswa(curUserId!, nama, nim);
         dbHelper.update(e);
         setState(() {
           isUpdating = false;
         });
       } else {
-        Siswa e = Siswa(0, nama, nim!);
+        Siswa e = Siswa(0, nama, nim);
         dbHelper.save(e);
       }
       clearName();
@@ -83,14 +85,14 @@ class _DBTestPageState extends State<DBTestPage> {
             verticalDirection: VerticalDirection.down,
             children: <Widget>[
               TextFormField(
-                controller: controller,
+                controller: controllernama,
                 keyboardType: TextInputType.text,
                 decoration: const InputDecoration(labelText: 'Nama'),
                 validator: (val) => val!.isEmpty ? 'Masukkan Nama' : null,
                 onSaved: (val) => nama = val!,
               ),
               TextFormField(
-                controller: controller,
+                controller: controllernim,
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(labelText: 'Nim kamu baby'),
                 validator: (val) => val!.isEmpty ? 'Masukkan Nim mazseh' : null,
@@ -110,7 +112,7 @@ class _DBTestPageState extends State<DBTestPage> {
                       });
                       clearName();
                     },
-                    child: const Text('Batal'),
+                    child: const Text('BATAL'),
                   )
                 ],
               ),
@@ -144,7 +146,7 @@ class _DBTestPageState extends State<DBTestPage> {
                       isUpdating = true;
                       curUserId = siswa.id;
                     });
-                    controller.text = siswa.nama;
+                    controllernama.text = siswa.nama;
                   },
                 ),
                 DataCell(
@@ -154,7 +156,7 @@ class _DBTestPageState extends State<DBTestPage> {
                       isUpdating = true;
                       curUserId = siswa.id;
                     });
-                    controller.text = siswa.nim.toString();
+                    controllernim.text = siswa.nim.toString();
                   },
                 ),
                 DataCell(IconButton(

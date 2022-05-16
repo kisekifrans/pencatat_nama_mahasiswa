@@ -1,5 +1,5 @@
 class Siswa {
-  late int id;
+  int? id;
   late String nama;
   late int nim;
 
